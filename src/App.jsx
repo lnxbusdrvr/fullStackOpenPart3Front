@@ -12,7 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
-  const [notifyMessage, setNotifyMessage] = useState(null);
+  const [notifyMessage, setNotifyMessage] = useState('');
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -26,16 +26,32 @@ const App = () => {
   const addPhonebook = (event) => {
     event.preventDefault();
     const newPerson = { name: newName, number: newNumber };
-    personService
-      .create(newPerson)
-      .then(returnedPerson => {
-        setPersons( persons.concat(returnedPerson) );
-        setNotifyMessage(`Added ${newName}`);
-        setIsError(false);
-        setTimeout(() => {setNotifyMessage(null)}, 5000);
-        setNewName('');
-        setNewNumber('');
-      });
+
+    const existingPerson = persons.find(person => person.name === newName);
+
+    if (existingPerson) {
+      personService
+        .update(existingPerson.id, {...existingPerson, number: newNumber})
+        .then(newPerson => {
+          setPersons(persons.map(oldP => oldP.id === existingPerson.id ? newPerson : oldP));
+          setNotifyMessage(`Modified ${newName}`);
+          setIsError(false);
+          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setNewName('');
+          setNewNumber('');
+        });
+    } else {
+      personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons( persons.concat(returnedPerson) );
+          setNotifyMessage(`Added ${newName}`);
+          setIsError(false);
+          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setNewName('');
+          setNewNumber('');
+        });
+    }
   }
 
   const handleNameChange = (event) => {
