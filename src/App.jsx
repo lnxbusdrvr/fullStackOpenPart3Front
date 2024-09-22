@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 
+import Header from './components/Header';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/PersonsComponent';
 import Notifier from './components/Notifier';
 
 import personService from './services/PersonsService';
+
+import Footer from './components/Footer';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -39,7 +42,11 @@ const App = () => {
           setTimeout(() => {setNotifyMessage(null)}, 5000);
           setNewName('');
           setNewNumber('');
-        });
+        })
+        .catch(error => {
+          setNotifyMessage(`${error.response.data}`);
+          setIsError(true);
+        })
     } else {
       personService
         .create(newPerson)
@@ -90,7 +97,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <Header app="Phonebook" />
+
       {notifyMessage && <Notifier message={notifyMessage} isError={isError} />}
 
       <Filter handleFilter={handleFilter} />
@@ -106,6 +114,7 @@ const App = () => {
 
       <h2>Numbers</h2>
       <Persons filterPersons={filterPersons} handleDelete={handleDelete} />
+      <Footer app="Phonebook app" school="fullstackopen.com & Open University of Helsinki" year="2024" />
     </div>
   );
 }
