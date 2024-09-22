@@ -44,8 +44,9 @@ const App = () => {
           setNewNumber('');
         })
         .catch(error => {
-          setNotifyMessage(`${error.response.data}`);
+          setNotifyMessage(error.response.data.error);
           setIsError(true);
+          setTimeout(() => {setNotifyMessage(null)}, 5000);
         })
     } else {
       personService
@@ -57,7 +58,11 @@ const App = () => {
           setTimeout(() => {setNotifyMessage(null)}, 5000);
           setNewName('');
           setNewNumber('');
-        });
+        }).catch(error => {
+          setNotifyMessage(error.response.data.error);
+          setIsError(true);
+          setTimeout(() => {setNotifyMessage(null)}, 5000);
+        })
     }
   }
 
@@ -91,7 +96,12 @@ const App = () => {
           setIsError(true);
           setTimeout(() => {setNotifyMessage(null)}, 5000);
           setPersons(persons.filter(p => p.id !== id));
-        });
+        }).catch(error => {
+          // This should not be happend while using normally frontend
+          setNotifyMessage(error.response.data.error);
+          setIsError(true);
+          setTimeout(() => {setNotifyMessage(null)}, 5000);
+        })
     }
   }
 
