@@ -34,20 +34,20 @@ const App = () => {
 
     if (existingPerson) {
       personService
-        .update(existingPerson.id, {...existingPerson, number: newNumber})
+        .update(existingPerson.id, { ...existingPerson, number: newNumber })
         .then(newPerson => {
           setPersons(persons.map(oldP => oldP.id === existingPerson.id ? newPerson : oldP));
           setNotifyMessage(`Modified ${newName}`);
           setIsError(false);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
           setNewName('');
           setNewNumber('');
         })
         .catch(error => {
           setNotifyMessage(error.response.data.error);
           setIsError(true);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
-        })
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
+        });
     } else {
       personService
         .create(newPerson)
@@ -55,28 +55,28 @@ const App = () => {
           setPersons( persons.concat(returnedPerson) );
           setNotifyMessage(`Added ${newName}`);
           setIsError(false);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
           setNewName('');
           setNewNumber('');
         }).catch(error => {
           setNotifyMessage(error.response.data.error);
           setIsError(true);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
-        })
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
+        });
     }
-  }
+  };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
-  }
+  };
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
-  }
+  };
 
   const handleFilter = (event) => {
     setNewFilter(event.target.value);
-  }
+  };
 
   const filterPersons = persons
     .filter(p => p.name.toLowerCase().includes(newFilter.toLowerCase()));
@@ -88,22 +88,22 @@ const App = () => {
         .then(() => {
           setNotifyMessage(`Deleted ${name}`);
           setIsError(false);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
           setPersons(persons.filter(p => p.id !== id));
         })
         .catch(() => {
           setNotifyMessage(`Information of '${name}' has already been removed from the server`);
           setIsError(true);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
           setPersons(persons.filter(p => p.id !== id));
         }).catch(error => {
           // This should not be happend while using normally frontend
           setNotifyMessage(error.response.data.error);
           setIsError(true);
-          setTimeout(() => {setNotifyMessage(null)}, 5000);
-        })
+          setTimeout(() => { setNotifyMessage(null); }, 5000);
+        });
     }
-  }
+  };
 
   return (
     <div>
@@ -127,7 +127,7 @@ const App = () => {
       <Footer app="Phonebook app" school="fullstackopen.com & Open University of Helsinki" year="2024" />
     </div>
   );
-}
+};
 
 export default App;
 

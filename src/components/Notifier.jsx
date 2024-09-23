@@ -1,6 +1,6 @@
 const Notifier = ({ message, isError }) => {
   if (message === null) {
-    return null
+    return null;
   }
 
   const notificationStyle = {
@@ -17,7 +17,7 @@ const Notifier = ({ message, isError }) => {
     <div style={notificationStyle}>
       {message}
     </div>
-  )
-}
+  );
+};
 
 export default Notifier;

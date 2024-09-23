@@ -1,4 +1,4 @@
-const PersonsComponent = ({filterPersons, handleDelete}) => {
+const PersonsComponent = ({ filterPersons, handleDelete }) => {
   return (
     <>
       {filterPersons.map(p =>
@@ -7,7 +7,7 @@ const PersonsComponent = ({filterPersons, handleDelete}) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
 export default PersonsComponent;
